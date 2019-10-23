@@ -1,0 +1,63 @@
+@import '~@/global.less';
+
+:global{
+  .ant-btn-info{
+    color:@button-white;
+    background-color: @button-blue;
+    border: 1px solid @button-blue;
+    &:hover, &:focus{
+      color:@button-white;
+      background-color:color(~`colorPalette("@{button-blue}", 5)`);
+      border-color:color(~`colorPalette("@{button-blue}", 5)`);
+    }
+  }
+
+  .ant-btn-warning{
+    color:@button-white;
+    background-color: @button-orange;
+    border: 1px solid @button-orange;
+    &:hover, &:focus{
+      color:@button-white;
+      background-color:color(~`colorPalette("@{button-orange}", 5)`);
+      border-color:color(~`colorPalette("@{button-orange}", 5)`);
+    }
+  }
+
+  .ant-btn-success{
+    color:@button-white;
+    background-color: @button-green;
+    border: 1px solid @button-green;
+    &:hover,&:focus{
+      color: @button-white;
+      background-color:color(~`colorPalette("@{button-green}", 5)`);
+      border-color:color(~`colorPalette("@{button-green}", 5)`);
+    }
+  }
+
+  .ant-btn-danger{
+    color:@button-white;
+    background-color: @button-pink;
+    border: 1px solid @button-pink;
+    &:hover,&:focus{
+      color:@button-white;
+      background-color:color(~`colorPalette("@{button-pink}", 5)`);
+      border-color:color(~`colorPalette("@{button-pink}", 5)`);
+    }
+  }
+
+  .ant-btn-default{
+    &,&:hover, &:focus{
+      color : @button-white;
+      background-color: @button-grey;
+      border: 1px solid @button-grey;
+    }
+  }
+}
+
+.show{
+  display: initial;
+}
+
+.hide{
+  display: none;
+}

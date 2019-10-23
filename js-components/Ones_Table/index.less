@@ -1,0 +1,30 @@
+@import '~@/config.less';
+
+:global {
+  .ant-table-thead > tr > th:last-child,.ant-table-tbody > tr > td:last-child {
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .ant-table-thead > tr > th,.ant-table-tbody > tr > td{
+    word-break:break-all;
+    word-wrap:break-word;
+  }
+  .flag{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 100%;
+    height: 200px\0;
+  }
+  .flag.flag-yellow {
+    background-color: @flag-yellow;
+  }
+  .flag.flag-red {
+    background-color: @flag-red;
+  }
+  .clickRowStyl{
+    background: @table-bg;
+  }
+}

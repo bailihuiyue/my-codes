@@ -1,0 +1,38 @@
+:global{
+    .ant-upload-list-picture-card{
+        .ant-upload-list-item-info{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .only-view-pic{
+        .ant-upload-list-item-actions{
+            &>i{
+                display: none;
+            }
+        }
+    }
+    .only-view-file{
+        .ant-upload.ant-upload-select.ant-upload-select-text{
+            &>span{
+                display: none;
+            }
+        }
+    }
+    .ant-upload-list.ant-upload-list-text{
+        .ant-upload-list-item-info{
+            cursor: pointer;
+        }
+    }
+    .ant-upload-list-picture-card .ant-upload-list-item-info::before{
+        left: 0;
+    }
+    .ant-upload-list-item-info > span{
+        width: 100%;
+    }
+    .addDisInBlock{
+        display: inline-block!important;
+    }
+}
