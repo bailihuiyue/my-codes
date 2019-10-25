@@ -14,6 +14,7 @@ export const isAntDesignPro = (): boolean => {
 
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
+// 判断是否是正确的手机串号
 export const isIMEI = (imei: string) => {
   const etal = /^[0-9]{15}$/;
 
@@ -40,4 +41,23 @@ export const isIMEI = (imei: string) => {
   if (chk != parseInt(imei.substring(14, 15), 10))
     return false;
   return true;
+}
+
+// 下载后台传过来的流文件(兼容ie11)
+export const download = (response, fileName) => {
+  return response.blob().then((blob) => {
+    if (window.navigator.msSaveOrOpenBlob) {
+      navigator.msSaveBlob(blob, fileName);
+    } else {
+      const link = document.createElement('a');
+      const body = document.getElementsByTagName("body")[0];
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+      body.removeChild(link);
+    }
+    return true;
+  })
 }
