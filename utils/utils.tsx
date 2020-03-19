@@ -5,13 +5,6 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(
 
 export const isUrl = (path: string): boolean => reg.test(path);
 
-export const isAntDesignPro = (): boolean => {
-  if (ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site') {
-    return true;
-  }
-  return window.location.hostname === 'preview.pro.ant.design';
-};
-
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
 // 判断是否是正确的手机串号
@@ -61,3 +54,23 @@ export const download = (response, fileName) => {
     return true;
   })
 }
+
+// 时间格式化为03/18/2020 13：34这种 MM/DD/YY hh:mm
+export const formatDate = (date: Date) => {
+  const YY = date.getFullYear();
+  const MM = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}`;
+  const DD = (date.getDate() < 10 ? `0${date.getDate()}` : date.getDate());
+  const hh = `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}`;
+  const mm = `${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+  // const ss = (date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds());
+  return `${MM}/${DD}/${YY} ${hh}:${mm}`;
+}
+
+
+// 前端解决缓存问题,写在模板html中即可
+{/* <script>
+  if(!window.sessionStorage.getItem("hasReload")){
+    window.sessionStorage.setItem("hasReload","true");
+    window.location.reload(true); 
+  }
+</script> */}
