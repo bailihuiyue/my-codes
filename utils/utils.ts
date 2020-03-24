@@ -5,13 +5,6 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(
 
 export const isUrl = (path: string): boolean => reg.test(path);
 
-export const isAntDesignPro = (): boolean => {
-  if (ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site') {
-    return true;
-  }
-  return window.location.hostname === 'preview.pro.ant.design';
-};
-
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
 // 判断是否是正确的手机串号
@@ -61,3 +54,39 @@ export const download = (response, fileName) => {
     return true;
   })
 }
+
+// vue 图片查看器:v-viewer,示例项目:Invoice Checking Queue
+
+// ie11 hash路由不跳转
+// main.js 添加如下方法
+const IE11RouterFix = {
+  methods: {
+    hashChangeHandler: function() {
+      this.$router.push(
+        window.location.hash.substring(1, window.location.hash.length)
+      );
+    },
+    isIE11: function() {
+      return !!window.MSInputMethodContext && !!document.documentMode;
+    }
+  },
+  mounted: function() {
+    if (this.isIE11()) {
+      window.addEventListener("hashchange", this.hashChangeHandler);
+    }
+  },
+  destroyed: function() {
+    if (this.isIE11()) {
+      window.removeEventListener("hashchange", this.hashChangeHandler);
+    }
+  }
+};
+
+new Vue({
+  router,
+  store,
+  i18n,
+  render: h => h(App),
+  // 同时添加这行
+  mixins: [IE11RouterFix]
+}).$mount("#app");
