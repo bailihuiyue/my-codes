@@ -90,3 +90,24 @@ new Vue({
   // 同时添加这行
   mixins: [IE11RouterFix]
 }).$mount("#app");
+
+
+// 时间格式化为03/18/2020 13：34这种 MM/DD/YY hh:mm
+export const formatDate = (date: Date) => {
+  const YY = date.getFullYear();
+  const MM = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}`;
+  const DD = (date.getDate() < 10 ? `0${date.getDate()}` : date.getDate());
+  const hh = `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}`;
+  const mm = `${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+  // const ss = (date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds());
+  return `${MM}/${DD}/${YY} ${hh}:${mm}`;
+}
+
+
+// 前端解决缓存问题,写在模板html中即可
+{/* <script>
+  if(!window.sessionStorage.getItem("hasReload")){
+    window.sessionStorage.setItem("hasReload","true");
+    window.location.reload(true); 
+  }
+</script> */}
