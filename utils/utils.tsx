@@ -112,10 +112,14 @@ export const formatDate = (date: Date) => {
   }
 </script> */}
 
-// 创建formData,同时上传表单和文件
+// 创建formData,同时上传表单和文件,支持多个文件
 export const createFormData = (formDatas, file) => {
   const formData = new FormData();
-  if (file) {
+  if (file.length) {
+    file.map((item) => {
+      formData.append("file", item);
+    });
+  } else {
     formData.append("file", file);
   }
   for (const item in formDatas) {
