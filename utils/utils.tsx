@@ -111,3 +111,15 @@ export const formatDate = (date: Date) => {
     window.location.reload(true); 
   }
 </script> */}
+
+// 创建formData,同时上传表单和文件
+export const createFormData = (formDatas, file) => {
+  const formData = new FormData();
+  if (file) {
+    formData.append("file", file);
+  }
+  for (const item in formDatas) {
+    formData.append(item, formDatas[item] || "");
+  }
+  return formData;
+};
