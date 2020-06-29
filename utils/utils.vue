@@ -1,3 +1,6 @@
+<template></template>
+
+<script>
 import { parse } from "querystring";
 
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
@@ -32,7 +35,7 @@ export const isIMEI = (imei: string) => {
 
 // 下载后台传过来的流文件(兼容ie11)
 export const download = (response, fileName) => {
-  return response.blob().then((blob) => {
+  return response.blob().then(blob => {
     if (window.navigator.msSaveOrOpenBlob) {
       navigator.msSaveBlob(blob, fileName);
     } else {
@@ -55,34 +58,34 @@ export const download = (response, fileName) => {
 // main.js 添加如下方法
 const IE11RouterFix = {
   methods: {
-    hashChangeHandler: function () {
+    hashChangeHandler: function() {
       this.$router.push(
         window.location.hash.substring(1, window.location.hash.length)
       );
     },
-    isIE11: function () {
+    isIE11: function() {
       return !!window.MSInputMethodContext && !!document.documentMode;
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     if (this.isIE11()) {
       window.addEventListener("hashchange", this.hashChangeHandler);
     }
   },
-  destroyed: function () {
+  destroyed: function() {
     if (this.isIE11()) {
       window.removeEventListener("hashchange", this.hashChangeHandler);
     }
-  },
+  }
 };
 
 new Vue({
   router,
   store,
   i18n,
-  render: (h) => h(App),
+  render: h => h(App),
   // 同时添加这行
-  mixins: [IE11RouterFix],
+  mixins: [IE11RouterFix]
 }).$mount("#app");
 
 // 时间格式化为03/18/2020 13：34这种 MM/DD/YY hh:mm
@@ -103,20 +106,16 @@ export const formatDate = (date: Date) => {
 };
 
 // 前端解决缓存问题,写在模板html中即可
-{
-  /* <script>
-  if(!window.sessionStorage.getItem("hasReload")){
-    window.sessionStorage.setItem("hasReload","true");
-    window.location.reload(true); 
-  }
-</script> */
+if (!window.sessionStorage.getItem("hasReload")) {
+  window.sessionStorage.setItem("hasReload", "true");
+  window.location.reload(true);
 }
 
 // 创建formData,同时上传表单和文件,支持多个文件
 export const createFormData = (formDatas, file) => {
   const formData = new FormData();
   if (file.length) {
-    file.map((item) => {
+    file.map(item => {
       formData.append("file", item);
     });
   } else {
@@ -129,17 +128,17 @@ export const createFormData = (formDatas, file) => {
 };
 
 // 文件转base64,图片用
-export const getBase64 = (file) => {
+export const getBase64 = file => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
+    reader.onerror = error => reject(error);
   });
 };
 
 // 删除object中的null值
-export const removeNullData = (data) => {
+export const removeNullData = data => {
   let obj = {};
   for (let k in data) {
     if (data[k] !== null) {
@@ -148,3 +147,15 @@ export const removeNullData = (data) => {
   }
   return obj;
 };
+
+export default {};
+</script>
+<style lang="less">
+// IE css hack 原理:媒体查询一个只有ie(11)才存在的样式,这样只有特定样式生效(在特定浏览器下)才能进入css块
+@media all and (-ms-high-contrast: none) {
+  *::-ms-backdrop,
+  .imageWrap {
+    height: 600px;
+  }
+}
+</style>
