@@ -148,7 +148,7 @@ export const removeNullData = data => {
   return obj;
 };
 
-// 将object转换成array 
+// 将object转换成array
 // 整理ant pro中的tag-select组件数据格式
 // {value:"1",checked:true}变成['1','2','3']这种
 export const changeObjectToArray = ({ value, checked }) => {
@@ -165,19 +165,52 @@ export const changeObjectToArray = ({ value, checked }) => {
 };
 
 //生成从minNum到maxNum的随机数,指定范围随机数
-function randomNum(minNum,maxNum){ 
-    switch(arguments.length){ 
-        case 1: 
-            return parseInt(Math.random()*minNum+1,10); 
-        break; 
-        case 2: 
-            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
-        break; 
-            default: 
-                return 0; 
-            break; 
-    } 
-} 
+function randomNum(minNum, maxNum) {
+  switch (arguments.length) {
+    case 1:
+      return parseInt(Math.random() * minNum + 1, 10);
+      break;
+    case 2:
+      return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+      break;
+    default:
+      return 0;
+      break;
+  }
+}
+
+// 利用a标签解析url
+function parseURL(url) {
+  var a = document.createElement("a");
+  a.href = url;
+  return {
+    source: url,
+    protocol: a.protocol.replace(":", ""),
+    host: a.hostname,
+    port: a.port,
+    query: a.search,
+    params: (function() {
+      var ret = {},
+        seg = a.search.replace(/^\?/, "").split("&"),
+        len = seg.length,
+        i = 0,
+        s;
+      for (; i < len; i++) {
+        if (!seg[i]) {
+          continue;
+        }
+        s = seg[i].split("=");
+        ret[s[0]] = s[1];
+      }
+      return ret;
+    })(),
+    file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ""])[1],
+    hash: a.hash.replace("#", ""),
+    path: a.pathname.replace(/^([^\/])/, "/$1"),
+    relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ""])[1],
+    segments: a.pathname.replace(/^\//, "").split("/")
+  };
+}
 
 export default {};
 </script>
