@@ -212,6 +212,21 @@ function parseURL(url) {
   };
 }
 
+// 去掉html中的标签
+function cleanHtml(str) {
+  var re = /<[^>]+>/gi;
+  if (str) {
+    str = str
+      .replace(re, "")
+      .replace(/&nbsp;/g, "")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&rdquo;/g, '"')
+      .replace(/&ldquo;/g, '"');
+  }
+  return str;
+}
+
 export default {};
 </script>
 <style lang="less">
