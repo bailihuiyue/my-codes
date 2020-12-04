@@ -33,7 +33,7 @@
 </div>
 
 <script>
-  import { parse } from "querystring";
+  import { parse } from 'querystring';
 
   // 判断是否是一个http地址
   /* eslint no-useless-escape:0 import/prefer-default-export:0 */
@@ -41,7 +41,7 @@
 
   export const isUrl = (path: string): boolean => reg.test(path);
 
-  export const getPageQuery = () => parse(window.location.href.split("?")[1]);
+  export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
   // 判断是否是正确的手机串号
   export const isIMEI = (imei: string) => {
@@ -72,8 +72,8 @@
       if (window.navigator.msSaveOrOpenBlob) {
         navigator.msSaveBlob(blob, fileName);
       } else {
-        const link = document.createElement("a");
-        const body = document.getElementsByTagName("body")[0];
+        const link = document.createElement('a');
+        const body = document.getElementsByTagName('body')[0];
         link.href = window.URL.createObjectURL(blob);
         link.download = fileName;
         body.appendChild(link);
@@ -102,12 +102,12 @@
     },
     mounted: function () {
       if (this.isIE11()) {
-        window.addEventListener("hashchange", this.hashChangeHandler);
+        window.addEventListener('hashchange', this.hashChangeHandler);
       }
     },
     destroyed: function () {
       if (this.isIE11()) {
-        window.removeEventListener("hashchange", this.hashChangeHandler);
+        window.removeEventListener('hashchange', this.hashChangeHandler);
       }
     },
   };
@@ -119,7 +119,7 @@
     render: (h) => h(App),
     // 同时添加这行
     mixins: [IE11RouterFix],
-  }).$mount("#app");
+  }).$mount('#app');
 
   // 时间格式化为03/18/2020 13：34这种 MM/DD/YY hh:mm
   export const formatDate = (date: Date) => {
@@ -139,8 +139,8 @@
   };
 
   // 前端解决缓存问题,写在模板html中即可
-  if (!window.sessionStorage.getItem("hasReload")) {
-    window.sessionStorage.setItem("hasReload", "true");
+  if (!window.sessionStorage.getItem('hasReload')) {
+    window.sessionStorage.setItem('hasReload', 'true');
     window.location.reload(true);
   }
 
@@ -149,13 +149,13 @@
     const formData = new FormData();
     if (file.length) {
       file.map((item) => {
-        formData.append("file", item);
+        formData.append('file', item);
       });
     } else {
-      formData.append("file", file);
+      formData.append('file', file);
     }
     for (const item in formDatas) {
-      formData.append(item, formDatas[item] || "");
+      formData.append(item, formDatas[item] || '');
     }
     return formData;
   };
@@ -214,17 +214,17 @@
 
   // 利用a标签解析url
   function parseURL(url) {
-    var a = document.createElement("a");
+    var a = document.createElement('a');
     a.href = url;
     return {
       source: url,
-      protocol: a.protocol.replace(":", ""),
+      protocol: a.protocol.replace(':', ''),
       host: a.hostname,
       port: a.port,
       query: a.search,
       params: (function () {
         var ret = {},
-          seg = a.search.replace(/^\?/, "").split("&"),
+          seg = a.search.replace(/^\?/, '').split('&'),
           len = seg.length,
           i = 0,
           s;
@@ -232,16 +232,16 @@
           if (!seg[i]) {
             continue;
           }
-          s = seg[i].split("=");
+          s = seg[i].split('=');
           ret[s[0]] = s[1];
         }
         return ret;
       })(),
-      file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ""])[1],
-      hash: a.hash.replace("#", ""),
-      path: a.pathname.replace(/^([^\/])/, "/$1"),
-      relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ""])[1],
-      segments: a.pathname.replace(/^\//, "").split("/"),
+      file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+      hash: a.hash.replace('#', ''),
+      path: a.pathname.replace(/^([^\/])/, '/$1'),
+      relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+      segments: a.pathname.replace(/^\//, '').split('/'),
     };
   }
 
@@ -250,14 +250,61 @@
     var re = /<[^>]+>/gi;
     if (str) {
       str = str
-        .replace(re, "")
-        .replace(/&nbsp;/g, "")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
+        .replace(re, '')
+        .replace(/&nbsp;/g, '')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
         .replace(/&rdquo;/g, '"')
         .replace(/&ldquo;/g, '"');
     }
     return str;
+  }
+
+  // 原生生成xls,不支持xlsx
+  {
+    export const onExportTable = () => {
+      let body = '';
+      for (let i = 0; i < this.tableData.length; i++) {
+        body += `<tr><td>${i + 1}</td><td>${this.tableData[i].title}</td><td>${
+          this.tableData[i].description
+        }</td></tr>`;
+      }
+      let tableStr = `<table>${body}</table>`;
+      exportExcelFromTable(tableStr, 'zero_distance_list');
+    };
+
+    export const exportExcelFromTable = (tableString, fileName) => {
+      const template =
+        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"' +
+        'xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>' +
+        '<x:Name>Score_Report</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets>' +
+        '</x:ExcelWorkbook></xml><![endif]-->' +
+        ' <style type="text/css">' +
+        'table td {' +
+        'width: 150px;' +
+        'MSO-NUMBER-FORMAT:\\@;' +
+        'height: 30px;' +
+        ' } ' +
+        '</style>' +
+        '</head><body >' +
+        tableString +
+        '</body></html>';
+      exportExcelWithoutPlugin([template], `${fileName}.xls`);
+    };
+
+    export const exportExcelWithoutPlugin = (blobParts, fileName) => {
+      const blob = new Blob(blobParts, {
+        type:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8',
+      });
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = objectUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    };
   }
 
   export default {};
