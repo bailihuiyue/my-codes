@@ -1,0 +1,133 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>请使用最新版Chrome</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Microsoft Yahei';
+      }
+      .ie-a {
+        color: #eee;
+        font-size: 14px;
+        text-decoration: none;
+      }
+      img {
+        border: 0;
+      }
+      .ie-a p {
+        line-height: 40px;
+      }
+      .ie-1-4-box {
+        width: 25%;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        float: left;
+      }
+      .font-tips {
+        color: #fff;
+        padding-top: 100px;
+      }
+    </style>
+  </head>
+
+  <body style="overflow: hidden">
+    <div
+      id="ie-box"
+      style="
+        width: 100%;
+        background: url('./ie-bg.png') repeat-x;
+        margin: 0;
+        padding: 0 0 0 0;
+      "
+    >
+      <center>
+        <div
+          style="
+            width: 814px;
+            height: 455px;
+            margin: 0 auto;
+            background: url('./bg.png') no-repeat;
+          "
+        >
+          <div class="font-tips">
+            <div>
+              <span
+                style="
+                  font-size: 50px;
+                  padding-right: 20px;
+                  vertical-align: sub;
+                "
+                >IT Portal</span
+              >
+              <span style="font-size: 30px">提醒您</span>
+            </div>
+            <!-- <div style="font-size: 14px; padding-bottom: 5px">
+              您使用的浏览器过旧,请升级新的浏览器
+            </div>
+            <div style="font-size: 14px">
+              我们建议您下载以下浏览器的最新版本获得更好体验
+            </div> -->
+          </div>
+          <div style="padding: 100px 100px 0 100px; display: inline-block">
+            <div class="ie-1-4-box">
+              <a class="ie-a" href="https://www.google.cn/chrome">
+                <img src="./chrome.png" style="width: 50%" />
+                <p>Google Chrome</p>
+              </a>
+            </div>
+            <div class="ie-1-4-box">
+              <a class="ie-a" href="http://www.firefox.com.cn">
+                <img src="./firefox.png" style="width: 50%" />
+                <p>Mozilla FireFox</p>
+              </a>
+            </div>
+            <div class="ie-1-4-box">
+              <a class="ie-a" href="https://www.microsoft.com/zh-cn/edge">
+                <img src="./edge.png" style="width: 50%" />
+                <p>Edge</p>
+              </a>
+            </div>
+            <div class="ie-1-4-box">
+              <a
+                class="ie-a"
+                href="https://support.apple.com/zh_CN/downloads/safari"
+              >
+                <img src="./safari.png" style="width: 50%" />
+                <p>Apple Safari</p>
+              </a>
+            </div>
+          </div>
+          <div style="clear: both"></div>
+          <div
+            style="
+              color: #d9d9d9;
+              font-size: 12px;
+              text-align: center;
+              padding-top: 20px;
+            "
+          >
+            Copyright &copy; IT Portal
+          </div>
+        </div>
+      </center>
+    </div>
+
+    <script>
+      var H = document.body.clientHeight;
+      var paddingTop = (H - 455) * 0.5;
+      if (paddingTop < 0) {
+        paddingTop = 0;
+      }
+      document.getElementById('ie-box').style.cssText =
+        'width:100%;height:' +
+        H +
+        "px;background:url('./ie-bg.png') repeat-x;margin:0;padding:" +
+        paddingTop +
+        'px 0 0 0;';
+    </script>
+  </body>
+</html>
