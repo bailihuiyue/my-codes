@@ -2,15 +2,8 @@
 <div>
   <template>
     <div>
-      <a-upload
-        :action="baseURL + 'api/sage/file/upload'"
-        :headers="headers"
-        :show-upload-list="false"
-        @change="onUploadFiles"
-        class="avatar-uploader"
-        list-type="picture-card"
-        name="file"
-      >
+      <a-upload :action="baseURL + 'api/sage/file/upload'" :headers="headers" :show-upload-list="false"
+        @change="onUploadFiles" class="avatar-uploader" list-type="picture-card" name="file">
         <img :src="form.img" alt="avatar" style="width: 100%" v-if="form.img" />
         <div v-else>
           <a-icon :type="uploadingImg ? 'loading' : 'plus'" />
@@ -124,16 +117,13 @@
   // 时间格式化为03/18/2020 13：34这种 MM/DD/YY hh:mm
   export const formatDate = (date: Date) => {
     const YY = date.getFullYear();
-    const MM = `${
-      date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
-    }`;
+    const MM = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+      }`;
     const DD = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const hh = `${
-      date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
-    }`;
-    const mm = `${
-      date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
-    }`;
+    const hh = `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+      }`;
+    const mm = `${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+      }`;
     // const ss = (date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds());
     return `${MM}/${DD}/${YY} ${hh}:${mm}`;
   };
@@ -265,9 +255,8 @@
     export const onExportTable = () => {
       let body = '';
       for (let i = 0; i < this.tableData.length; i++) {
-        body += `<tr><td>${i + 1}</td><td>${this.tableData[i].title}</td><td>${
-          this.tableData[i].description
-        }</td></tr>`;
+        body += `<tr><td>${i + 1}</td><td>${this.tableData[i].title}</td><td>${this.tableData[i].description
+          }</td></tr>`;
       }
       let tableStr = `<table>${body}</table>`;
       exportExcelFromTable(tableStr, 'zero_distance_list');
@@ -316,11 +305,24 @@
     else return `url('/badges/${pic}.jpg')`;
   };
 
+  // 数组生成obj,可递归
+  // 或者 JavaScript：如何使用数组提供的对象名称动态创建嵌套对象？:https://cloud.tencent.com/developer/ask/153668
+  function reduceArr(o, arr, cb) {
+    arr.reduce((total, val, index) => {
+      if (index === arr.length - 1) {
+        total[val] = cb
+        return total[val]
+      }
+      return (total[val] || (total[val] = {}))
+    }, o)
+  }
+
   export default {};
 </script>
 <style lang="less">
   // IE css hack 原理:媒体查询一个只有ie(11)才存在的样式,这样只有特定样式生效(在特定浏览器下)才能进入css块
   @media all and (-ms-high-contrast: none) {
+
     *::-ms-backdrop,
     .imageWrap {
       height: 600px;
