@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>开发架构</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <script>
+        //动态适配分辨率
+        // 支持的最小分辨率
+        var minRatio = 320
+        // 支持的最大分辨率
+        var maxRatio = 750
+        // 根元素字体大小
+        var baseSize = 100
+        // 设计稿分辨率
+        var designSize = 750
+
+        var docEl = document.documentElement;
+        var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+        var recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if (clientWidth < minRatio) {
+                clientWidth = minRatio
+            } else if (clientWidth > maxRatio) {
+                clientWidth = maxRatio
+            }
+            docEl.style.fontSize = Math.floor(baseSize * (clientWidth / designSize)) + 'px';
+        };
+        window.addEventListener(resizeEvt, recalc, false);
+        recalc();
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div style="font-size: 1rem;">123 456</div>
+    </div>
+</body>
+
+</html>
