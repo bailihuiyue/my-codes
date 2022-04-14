@@ -317,6 +317,33 @@
     }, o)
   }
 
+  // ant design pro ,umi3 ,webpack4 dynamicImport分包,提取公共依赖
+  export default {
+    dynamicImport: {},
+    chunks: ['umi'],
+    chainWebpack: function (config, { webpack }) {
+      config.merge({
+        optimization: {
+          splitChunks: {
+            chunks: 'all',
+            minSize: 30000,
+            minChunks: 3,
+            automaticNameDelimiter: '.',
+            cacheGroups: {
+              vendor: {
+                name: 'vendors',
+                test({ resource }) {
+                  return /[\\/]node_modules[\\/]/.test(resource);
+                },
+                priority: 10,
+              },
+            },
+          },
+        },
+      });
+    }
+  }
+
   export default {};
 </script>
 <style lang="less">
