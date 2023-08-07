@@ -380,6 +380,36 @@
     return arr2.filter((e) => arr1.indexOf(e) < 0)
   }
 
+  // 根据树的字段搜索所有父级内容
+  export const findParent = (params) => {
+  // tree:整个树, target:要搜索的值, resField:要返回的字段(不填写则返回整个obj),searchField要搜索的字段,默认是id,填写之后则变成填入的字段
+  const { tree, target, resField, searchField } = params
+  const result = []
+  function traverse(node, id, result) {
+    for (let i in node) {
+      let item = node[i]
+      if (item[searchField] || item.id === id) {
+        // 不需要传入的id本身
+        if (id !== target) {
+          result.unshift(item[resField] || item)
+        }
+        return true
+      }
+      if (item.children && item.children.length > 0) {
+        let ok = traverse(item.children, id, result)
+        if (ok) {
+          result.unshift(item[resField] || item)
+          return true
+        }
+      }
+    }
+    //走到这说明没找到目标
+    return false
+  }
+  traverse(tree, target, result)
+  return result
+}
+
 </script>
 <style lang="less">
   // IE css hack 原理:媒体查询一个只有ie(11)才存在的样式,这样只有特定样式生效(在特定浏览器下)才能进入css块
