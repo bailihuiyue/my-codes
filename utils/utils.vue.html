@@ -372,41 +372,45 @@
 
   // 比较两个集合并返回差异,数组差值
   // 包含
-  const arrIncludes = (arr1, arr2) => {
-    return arr2.filter((e) => !arr1.includes(e))
+  export const arrIncludes = (newArr, oldArr=[]) => {
+    if (newArr.length > oldArr.length) {
+      return newArr.filter((e) => !oldArr.includes(e))
+    } else {
+      return oldArr.filter((e) => !newArr.includes(e))
+    }
   }
   // 不包含
-  const arrNotIncludes = (arr1, arr2) => {
-    return arr2.filter((e) => arr1.indexOf(e) < 0)
+  export const arrNotIncludes = (newArr, oldArr = []) => {
+    if (newArr.length > oldArr.length) {
+      return newArr.filter((e) => oldArr.indexOf(e) < 0)
+    } else {
+      return oldArr.filter((e) => newArr.indexOf(e) < 0)
+    }
   }
 
-  // 根据树的字段搜索所有父级内容
-  export const findParent = (params) => {
-  // tree:整个树, target:要搜索的值, resField:要返回的字段(不填写则返回整个obj),searchField要搜索的字段,默认是id,填写之后则变成填入的字段
-  const { tree, target, resField, searchField } = params
-  const result = []
-  function traverse(node, id, result) {
-    for (let i in node) {
-      let item = node[i]
-      if (item[searchField] || item.id === id) {
-        // 不需要传入的id本身
-        if (id !== target) {
-          result.unshift(item[resField] || item)
+ /**
+ * 根据树的字段搜索所有父级内容
+ * @param {array} tree 整个树
+ * @param {string} target 要搜索的值
+ * @param {string} resField 要返回的字段(不填写则返回整个obj)
+ * @param {string} searchField 要搜索的字段, 默认是id, 填写之后则变成填入的字段
+ */
+  export const findTreeParentKeys = ({ tree, target, resField, searchField = 'id' }) => {
+  const { tree, target, resField, searchField = 'id' } = params
+  let result = []
+
+  function traverse(nodes, parent = []) {
+    for (let node of nodes) {
+      if (node.children) {
+        if (node.children.some((child) => child[searchField] === target)) {
+          result.push(...parent, node[resField] || node)
         }
-        return true
-      }
-      if (item.children && item.children.length > 0) {
-        let ok = traverse(item.children, id, result)
-        if (ok) {
-          result.unshift(item[resField] || item)
-          return true
-        }
+        traverse(node.children, [...parent, node[resField] || node])
       }
     }
-    //走到这说明没找到目标
-    return false
   }
-  traverse(tree, target, result)
+
+  traverse(tree)
   return result
 }
 
