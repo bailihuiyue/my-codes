@@ -414,6 +414,40 @@
   return result
 }
 
+// 获取两个相同对象之间的差异不同,返回对象的key
+export function deepDiffKeys(obj1, obj2) {
+  const diffKeys = []
+
+  function deepCompare(o1, o2, key) {
+    if (o1 === o2) return
+    if (typeof o1 !== 'object' || o1 === null || typeof o2 !== 'object' || o2 === null) {
+      debugger
+      diffKeys.push(key)
+      return
+    }
+
+    for (const k in o1) {
+      if (o2[k] === undefined) {
+        debugger
+        diffKeys.push(key + '.' + k)
+      } else {
+        deepCompare(o1[k], o2[k], key + '.' + k)
+      }
+    }
+
+    for (const k in o2) {
+      if (o1[k] === undefined) {
+        debugger
+        diffKeys.push(key + '.' + k)
+      }
+    }
+  }
+
+  deepCompare(obj1, obj2, 'root')
+  return diffKeys
+}
+
+
 </script>
 <style lang="less">
   // IE css hack 原理:媒体查询一个只有ie(11)才存在的样式,这样只有特定样式生效(在特定浏览器下)才能进入css块
